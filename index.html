@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ailesh Photobooth</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+
+    <main class="layout">
+      <section class="hero">
+        <p class="label">Live Photobooth</p>
+        <h1>Ailesh</h1>
+        <p class="subtitle">
+          Bikin strip foto ala studio langsung dari browser. Pilih filter, atur
+          countdown, lalu download hasilnya.
+        </p>
+      </section>
+
+      <section class="studio" aria-label="Photobooth camera">
+        <div class="preview-shell">
+          <video id="camera" autoplay playsinline muted></video>
+          <div class="overlay-frame"></div>
+          <div id="countdown" class="countdown hidden">3</div>
+        </div>
+
+        <div class="controls">
+          <div class="control-row">
+            <label for="cameraSelect">Kamera</label>
+            <select id="cameraSelect">
+              <option value="">Default camera</option>
+            </select>
+          </div>
+
+          <div class="control-row">
+            <label for="filter">Filter</label>
+            <select id="filter">
+              <option value="none">Natural</option>
+              <option value="mono">Mono Film</option>
+              <option value="warm">Warm Glow</option>
+              <option value="cool">Cool Breeze</option>
+              <option value="vivid">Vivid Pop</option>
+            </select>
+          </div>
+
+          <div class="control-row">
+            <label for="delay">Countdown</label>
+            <select id="delay">
+              <option value="3">3 detik</option>
+              <option value="5">5 detik</option>
+              <option value="7">7 detik</option>
+            </select>
+          </div>
+
+          <div class="control-row">
+            <label for="shots">Jumlah foto</label>
+            <select id="shots">
+              <option value="3">3 frame</option>
+              <option value="4">4 frame</option>
+            </select>
+          </div>
+
+          <div class="control-row">
+            <label for="border">Border strip</label>
+            <select id="border">
+              <option value="classic">Classic</option>
+              <option value="mint">Mint Pop</option>
+              <option value="sunset">Sunset</option>
+              <option value="mono">Mono Clean</option>
+              <option value="asset_frame_a">Frame Asset A</option>
+              <option value="asset_frame_b">Frame Asset B</option>
+            </select>
+          </div>
+
+          <button id="start" class="btn btn-primary">Mulai Sesi</button>
+          <button id="download" class="btn btn-secondary" disabled>
+            Download Strip
+          </button>
+          <p id="status" class="status">Izinkan kamera untuk mulai.</p>
+        </div>
+      </section>
+
+      <section class="result" aria-label="Hasil photostrip">
+        <h2>Hasil Photostrip</h2>
+        <canvas id="stripCanvas" width="420" height="1040"></canvas>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
