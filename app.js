@@ -887,10 +887,10 @@ function drawImageContain(ctx, image, dx, dy, dw, dh, fill = "#101218") {
 
 async function drawStrip(images) {
   const totalShots = images.length;
-  const margin = 26;
+  const margin = 0;
   const gap = 16;
-  const header = 108;
-  const footer = 86;
+  const header = 0;
+  const footer = 0;
   const borderTheme = borderThemes[borderSelect.value] || borderThemes.classic;
   const borderOverlay = await getBorderAsset().catch((error) => {
     console.error(error);
@@ -902,26 +902,12 @@ async function drawStrip(images) {
 
   stripCanvas.width = 420;
   if (hasTemplateSlots) {
-    const frameWidth = stripCanvas.width - margin * 2;
+    const frameWidth = stripCanvas.width;
     const frameHeight = Math.round((frameWidth * borderOverlay.crop.sh) / borderOverlay.crop.sw);
-    stripCanvas.height = header + footer + gap * 2 + frameHeight;
+    stripCanvas.height = frameHeight;
 
-    stripCtx.fillStyle = borderTheme.stripBg;
-    stripCtx.fillRect(0, 0, stripCanvas.width, stripCanvas.height);
-
-    stripCtx.fillStyle = borderTheme.topBar;
-    stripCtx.fillRect(0, 0, stripCanvas.width, 18);
-
-    stripCtx.fillStyle = borderTheme.title;
-    stripCtx.font = "700 44px 'Bebas Neue', sans-serif";
-    stripCtx.fillText("ailesh", margin, 58);
-
-    stripCtx.fillStyle = borderTheme.meta;
-    stripCtx.font = "500 16px 'Space Grotesk', sans-serif";
-    stripCtx.fillText(new Date().toLocaleString("id-ID"), margin, 84);
-
-    const frameX = margin;
-    const frameY = header + gap;
+    const frameX = 0;
+    const frameY = 0;
     const sortedSlots = borderOverlay.slots
       .slice()
       .sort((a, b) => a.y - b.y || a.x - b.x);
@@ -970,11 +956,7 @@ async function drawStrip(images) {
       frameHeight,
     );
 
-    stripCtx.fillStyle = borderTheme.footer;
-    stripCtx.font = "600 16px 'Space Grotesk', sans-serif";
-    stripCtx.fillText("ailesh_id", margin, stripCanvas.height - 30);
-
-    latestStrip = stripCanvas.toDataURL("image/jpeg", 0.95);
+    latestStrip = stripCanvas.toDataURL("image/png");
     return;
   }
 
@@ -987,21 +969,10 @@ async function drawStrip(images) {
       : defaultShotRatio;
   const shotRatio = Number.isFinite(overlayRatio) && overlayRatio > 0 ? overlayRatio : defaultShotRatio;
   const shotHeight = Math.round(shotWidth / shotRatio);
-  stripCanvas.height = header + footer + gap * (totalShots + 1) + shotHeight * totalShots;
+  stripCanvas.height = gap * (totalShots + 1) + shotHeight * totalShots;
 
   stripCtx.fillStyle = borderTheme.stripBg;
   stripCtx.fillRect(0, 0, stripCanvas.width, stripCanvas.height);
-
-  stripCtx.fillStyle = borderTheme.topBar;
-  stripCtx.fillRect(0, 0, stripCanvas.width, 18);
-
-  stripCtx.fillStyle = borderTheme.title;
-  stripCtx.font = "700 44px 'Bebas Neue', sans-serif";
-  stripCtx.fillText("ailesh", margin, 58);
-
-  stripCtx.fillStyle = borderTheme.meta;
-  stripCtx.font = "500 16px 'Space Grotesk', sans-serif";
-  stripCtx.fillText(new Date().toLocaleString("id-ID"), margin, 84);
 
   let y = header + gap;
   images.forEach((image, idx) => {
@@ -1056,11 +1027,7 @@ async function drawStrip(images) {
     y += shotHeight + gap;
   });
 
-  stripCtx.fillStyle = borderTheme.footer;
-  stripCtx.font = "600 16px 'Space Grotesk', sans-serif";
-  stripCtx.fillText("ailesh_id", margin, stripCanvas.height - 30);
-
-  latestStrip = stripCanvas.toDataURL("image/jpeg", 0.95);
+  latestStrip = stripCanvas.toDataURL("image/png");
 }
 
 function extractDriveLink(payload) {
@@ -1112,13 +1079,13 @@ async function uploadStripToDrive() {
 
   try {
     const base64 = latestStrip.split(",")[1] || "";
-    const fileName = `ailesh-${Date.now()}.jpg`;
+    const fileName = `ailesh-${Date.now()}.png`;
     const payload = {
       source: "ailesh-photobooth",
       action: "upload_photostrip",
       folderId: DRIVE_FOLDER_ID,
       fileName,
-      mimeType: "image/jpeg",
+      mimeType: "image/png",
       imageBase64: base64,
       imageDataUrl: latestStrip,
       createdAt: new Date().toISOString(),
