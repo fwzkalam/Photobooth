@@ -1105,7 +1105,9 @@ async function uploadStripToDrive() {
 
   isUploading = true;
   uploadDriveButton.disabled = true;
-  downloadButton.disabled = true;
+  if (downloadButton) {
+    downloadButton.disabled = true;
+  }
   statusEl.textContent = "Mengunggah photostrip ke Google Drive...";
 
   try {
@@ -1153,7 +1155,9 @@ async function uploadStripToDrive() {
     statusEl.textContent = "Upload ke Drive gagal. Cek Apps Script (doPost + CORS) lalu coba lagi.";
   } finally {
     isUploading = false;
-    downloadButton.disabled = !latestStrip;
+    if (downloadButton) {
+      downloadButton.disabled = !latestStrip;
+    }
     uploadDriveButton.disabled = !latestStrip;
   }
 }
@@ -1183,7 +1187,9 @@ async function runSession() {
 
   isCapturing = true;
   startButton.disabled = true;
-  downloadButton.disabled = true;
+  if (downloadButton) {
+    downloadButton.disabled = true;
+  }
   uploadDriveButton.disabled = true;
 
   const shotCount = Number(shotsSelect.value);
@@ -1203,31 +1209,24 @@ async function runSession() {
     }
 
     latestCaptures = captures;
-    downloadButton.disabled = false;
+    if (downloadButton) {
+      downloadButton.disabled = false;
+    }
     uploadDriveButton.disabled = false;
-    statusEl.textContent = "Selesai! Kamu bisa Download atau Upload ke Drive.";
+    statusEl.textContent = "Selesai! Klik Upload ke Drive untuk simpan hasil.";
   } finally {
     isCapturing = false;
     startButton.disabled = false;
   }
 }
 
-function downloadStrip() {
-  if (!latestStrip) {
-    return;
-  }
-
-  const link = document.createElement("a");
-  link.href = latestStrip;
-  link.download = `ailesh-${Date.now()}.jpg`;
-  link.click();
-}
-
 filterSelect.addEventListener("change", () => {
   video.style.filter = filterMap[filterSelect.value] || "none";
 });
 startButton.addEventListener("click", runSession);
-downloadButton.addEventListener("click", downloadStrip);
+if (downloadButton) {
+  downloadButton.remove();
+}
 uploadDriveButton.addEventListener("click", uploadStripToDrive);
 cameraSelect.addEventListener("change", async () => {
   selectedDeviceId = cameraSelect.value;
