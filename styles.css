@@ -103,7 +103,7 @@ body {
   overflow: hidden;
   border: 2px solid rgba(255, 255, 255, 0.7);
   box-shadow: 0 12px 22px rgba(30, 31, 36, 0.2);
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 16 / 9;
   background: #1a1b21;
 }
 
@@ -195,6 +195,13 @@ select,
   background: linear-gradient(130deg, var(--accent-2), #27a9a6);
   box-shadow: 0 8px 18px rgba(0, 127, 124, 0.28);
 }
+
+.btn-drive {
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(130deg, #1b6de0, #4da3ff);
+  box-shadow: 0 8px 18px rgba(27, 109, 224, 0.28);
+ }
 
 .btn:disabled {
   cursor: not-allowed;
